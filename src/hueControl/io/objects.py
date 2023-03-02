@@ -15,8 +15,10 @@ class Io:
         self.headers: Dict = {"hue-application-key": user}
         self.base_url: str = f"https://{bridge}/clip/v2"
 
-    def get(self, path: str, id: Optional[str]) -> Optional[Dict]:
+    def get(self, path: str, id: Optional[str] = None) -> Optional[Dict]:
         url = f"{self.base_url}/{path}"
+        if id:
+            url = f"{url}/{id}"
         res = requests.get(url, verify=False, headers=self.headers)
         if res.ok:
             return res.json()

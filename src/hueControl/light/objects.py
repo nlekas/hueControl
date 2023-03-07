@@ -1,8 +1,10 @@
 from dataclasses import dataclass
 from datetime import datetime
 from enum import Enum
-from typing import List
+from typing import List, Optional, Dict
 from urllib.parse import urljoin
+
+from tomlkit.items import Bool
 
 from hueControl.io.objects import Io
 
@@ -214,11 +216,23 @@ class LightApi(Io):
     def __init__(self, bridge: str, user: str):
         super().__init__(bridge=bridge, user=user)
 
-    def get_lights(self):
+    def get_lights(self) -> List[Light]:
         path = "resource/light"
         url = urljoin(self.base_url, path)
         lights = self.get(url)
-        return lights
+        return self.parse_lights(lights)
 
-    def parse_lights(self):
+    def parse_lights(self, payload: Dict) -> List[Light]:
+        l = Light(
+            type="kdsjldkjf",
+            id="kldsjflksj",
+            id_v1="slkdjflksd",
+            owner=Owner(
+                rid="dskljflskdj",
+                rtype="skdjfldsjfl",
+            )
+        )
+        return [l]
+
+    def put_lights(self, lights: List[Light]) -> bool:
         raise NotImplementedError

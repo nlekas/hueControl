@@ -5,7 +5,7 @@ from urllib.parse import urljoin
 
 from hueControl.io.objects import Io
 
-from huecontrol.common.objects import Rtype
+from huecontrol.common.objects import Rtype, Dimming, ColorTemperature, CieXy, Color, Dynamics
 
 
 @dataclass
@@ -26,80 +26,6 @@ class MetadataScene:
 class Group:
     rid: str
     rtype: Rtype
-
-
-@dataclass
-class Dimming:
-    brightness: float
-    min_dim_level: float
-
-    def __post_init__(self):
-        if not 0 < self.brightness <= 100:
-            raise ValueError("Dimming-Brightness must be between 0 and 100")
-        if not 0 < self.min_dim_level <= 100:
-            raise ValueError("Dimming-Min_dim_level must be between 0 and 100")
-
-
-@dataclass
-class ColorTemperature:
-    mirek: int
-    mirek_valid: bool
-    mirek_min: int
-    mirek_max: int
-
-    def __post_init__(self):
-        if not 152 < self.mirek < 501:
-            raise ValueError("ColorTemperature-Mirek must be between 153 and 500")
-        if not 152 < self.mirek_min < 501:
-            raise ValueError("ColorTemperature-Mirek_Min must be between 153 and 500")
-        if not 152 < self.mirek_max < 501:
-            raise ValueError("ColorTemperature-Mirek_Max must be between 153 and 500")
-
-
-@dataclass
-class CieXy:
-    x: float
-    y: float
-
-    def __post_init__(self):
-        if not 0 <= self.x <= 1:
-            raise ValueError("CieXy-X gamut position must be between 0 and 1")
-        if not 0 <= self.y <= 1:
-            raise ValueError("CieXy-Y gamut position must be between 0 and 1")
-
-
-@dataclass
-class Gamut:
-    red: CieXy
-    green: CieXy
-    blue: CieXy
-
-
-class GamutType(Enum):
-    A = 1
-    B = 2
-    C = 3
-    other = 4
-
-
-@dataclass
-class Color:
-    xy: CieXy
-    gamut: Gamut
-    gamut_type: GamutType
-
-
-class DynamicStatus(Enum):
-    dynamic_palette = 1
-    none = 2
-
-
-@dataclass
-class Dynamics:
-    status: DynamicStatus
-    status_values: List[DynamicStatus]
-    speed: float
-    speed_valid: bool
 
 
 class SceneMode(Enum):

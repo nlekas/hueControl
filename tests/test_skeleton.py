@@ -1,6 +1,6 @@
 import pytest
 
-from huecontrol.skeleton import fib, main
+from hueControl.skeleton import fib, main
 
 __author__ = "Noah Lekas"
 __copyright__ = "Noah Lekas"

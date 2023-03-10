@@ -3,7 +3,7 @@ from enum import Enum
 from typing import Dict, List
 from urllib.parse import urljoin
 
-from huecontrol.common.objects import (Color, ColorTemperature, Dimming,
+from hueControl.common.objects import (Color, ColorTemperature, Dimming,
                                        Dynamics, LightGradient, Rtype)
 from hueControl.io.objects import Io
 

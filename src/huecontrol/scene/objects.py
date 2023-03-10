@@ -1,11 +1,11 @@
 from dataclasses import dataclass
 from enum import Enum
-from typing import List, Dict
+from typing import Dict, List
 from urllib.parse import urljoin
 
+from huecontrol.common.objects import (Color, ColorTemperature, Dimming,
+                                       Dynamics, LightGradient, Rtype)
 from hueControl.io.objects import Io
-
-from huecontrol.common.objects import Rtype, Dimming, ColorTemperature, Color, Dynamics, LightGradient
 
 
 @dataclass
@@ -45,7 +45,7 @@ class Scene:
     type: str
     id: str
     id_v1: str
-    metadata: Metadata
+    metadata: MetadataScene
     on: bool
     dimming: Dimming
     color_temperature: ColorTemperature
@@ -67,16 +67,16 @@ class SceneApi(Io):
         return self.parse_scene(scene)
 
     def parse_scene(self, payload: Dict) -> List[Scene]:
-        l = Scene(
+        scenes = Scene(
             type="kdsjldkjf",
             id="kldsjflksj",
             id_v1="slkdjflksd",
             target=Target(
                 rid="dskljflskdj",
                 rtype="skdjfldsjfl",
-            )
+            ),
         )
-        return [l]
+        return [scenes]
 
     def put_scene(self, lights: List[Scene]) -> bool:
         raise NotImplementedError

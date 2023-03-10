@@ -9,7 +9,7 @@ from huecontrol.common.objects import Rtype
 
 
 @dataclass
-class Metadata:
+class MetadataScene:
     name: str
     image: Rtype
     rid: str

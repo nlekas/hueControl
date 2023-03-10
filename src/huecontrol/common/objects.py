@@ -109,3 +109,33 @@ class Dynamics:
     status_values: List[DynamicStatus]
     speed: float
     speed_valid: bool
+
+
+class GradientMode(Enum):
+    interpolated_palette = 1
+    interpolated_palette_mirrored = 2
+    random_pixelated = 3
+
+
+@dataclass
+class LightGradient:
+    points: List[CieXy]
+    mode: GradientMode
+    points_capable: int
+    mode_values: List[GradientMode]
+    pixel_count: int
+
+
+class LightEffect(Enum):
+    sparkle = 1
+    fire = 2
+    candle = 3
+    no_effect = 4
+
+
+@dataclass
+class Effects:
+    effect: LightEffect
+    status_values: List[LightEffect]
+    status: LightEffect
+    effect_values: LightEffect

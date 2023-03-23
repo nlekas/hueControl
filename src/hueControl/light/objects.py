@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 from datetime import datetime
 from enum import Enum
-from typing import List, Optional, Dict
+from typing import Dict, List, Optional
 from urllib.parse import urljoin
 
 from tomlkit.items import Bool
@@ -180,10 +180,10 @@ class LightGradient:
 
 
 class LightEffect(Enum):
-    sparkle = 1
-    fire = 2
-    candle = 3
-    no_effect = 4
+    no_effect = 1
+    sparkle = 2
+    fire = 3
+    candle = 4
 
 
 @dataclass
@@ -192,6 +192,94 @@ class Effects:
     status_values: List[LightEffect]
     status: LightEffect
     effect_values: LightEffect
+
+
+class LightTimedEffect(Enum):
+    no_effect = 1
+    sunrise = 2
+
+
+@dataclass
+class TimedEffects:
+    effect: LightTimedEffect
+    duration: int
+    status_values: [str]
+    status: LightTimedEffect
+    effect_values: [str]
+
+
+class Preset(Enum):
+    safety = 1
+    powerfail = 2
+    last_state = 3
+    custom = 4
+
+
+class PowerUpMode(Enum):
+    toggle = 1
+    previous = 2
+
+
+@dataclass
+class On:
+    mode: PowerUpMode
+    on: bool
+
+
+@dataclass
+class DimmingDimming:
+    brightness: float
+
+    def __post_init__(self):
+        if 0 > self.brightness > 100:
+            raise ValueError(f"Dimming must be 0 to 100.")
+
+    def __str__(self):
+        return f"{{brightness: {self.brightness}}}"
+
+
+class DimmingMode(Enum):
+    dimming = 1
+    previous = 2
+
+
+class PowerUpDimming:
+    mode: DimmingMode
+    dimming: DimmingDimming
+
+
+@dataclass
+class PowerUp:
+    preset: Preset
+    configured: bool
+    on: On
+    dimming: Dimming
+
+
+class ColorMode(Enum):
+    color_temperature = 1
+    color = 2
+    previous = 3
+
+
+@dataclass
+class ColorColorTemperature:
+    mirek: int
+
+    def __post_init__(self):
+        if self.mirek < 153 or self.mirek > 500:
+            raise ValueError("ColorColorMirek has to be 153 to 500")
+
+    def __str__(self):
+        # TODO: Finish this to json method in strng
+        return {""}
+
+
+@dataclass
+class Color:
+    mode: ColorMode
+    color_temperature: ColorColorTemperature
+    color: CieXy
 
 
 @dataclass
@@ -210,6 +298,7 @@ class Light:
     signaling_status: SignalingStatus
     mode: LightMode
     gradient: LightGradient
+    effects: Effects
 
 
 class LightApi(Io):
@@ -230,7 +319,7 @@ class LightApi(Io):
             owner=Owner(
                 rid="dskljflskdj",
                 rtype="skdjfldsjfl",
-            )
+            ),
         )
         return [l]
 
